@@ -1,3 +1,4 @@
+import 'package:carrotmarket_clone/constant/common_size.dart';
 import 'package:carrotmarket_clone/utils/logger.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class IntroPage extends StatelessWidget {
 
         return SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: common_padding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,17 +57,14 @@ class IntroPage extends StatelessWidget {
                 //   'assets/imgs/carrot_intro.png',
                 //   width: MediaQuery.of(context).size.width * 0.3,
                 // ),
-                const Text(
+                Text(
                   '우리 동네 중고 직거래 당근마켓',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.headline6,
                 ),
-                const Text(
+                Text(
                   '당근마켓은 동네 직거래 마켓이에요.\n'
                   '내 동네를 설정하고 시작해보세요.',
-                  style: TextStyle(fontSize: 16),
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

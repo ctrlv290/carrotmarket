@@ -1,6 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:carrotmarket_clone/router/locations.dart';
-import 'package:carrotmarket_clone/screens/auth_screen.dart';
+import 'package:carrotmarket_clone/screens/start_screen.dart';
 import 'package:carrotmarket_clone/screens/spash_screen.dart';
 import 'package:carrotmarket_clone/utils/scroll.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ final _routerDelegate = BeamerDelegate(guards: [
       check: (context, location) {
         return false;
       },
-      showPage: BeamPage(child: AuthScreen()))
+      showPage: BeamPage(child: StartScreen()))
 ], locationBuilder: BeamerLocationBuilder(beamLocations: [HomeLocation()]));
 
 void main() {
@@ -53,11 +53,22 @@ class CarrotApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(
-        primarySwatch: Colors.orange,
-        fontFamily: 'Jalnan',
-        hintColor: Colors.grey[350],
-        textTheme: TextTheme(button: TextStyle(color: Colors.white)),
-      ),
+          primarySwatch: Colors.orange,
+          fontFamily: 'Jalnan',
+          hintColor: Colors.grey[350],
+          textTheme: TextTheme(
+            button: TextStyle(color: Colors.white),
+          ),
+          textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+            backgroundColor: Color(0xffef8449),
+            primary: Colors.white,
+            minimumSize: Size(48, 48),
+          )),
+          appBarTheme: AppBarTheme(
+              elevation: 2,
+              backgroundColor: Colors.white,
+              toolbarTextStyle: TextStyle(color: Colors.black87))),
       scrollBehavior: AppScrollBehavior(), //마우스 스와이프
       routeInformationParser: BeamerParser(),
       routerDelegate: _routerDelegate,
