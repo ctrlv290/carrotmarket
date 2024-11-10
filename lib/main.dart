@@ -2,15 +2,17 @@ import 'package:beamer/beamer.dart';
 import 'package:carrotmarket_clone/router/locations.dart';
 import 'package:carrotmarket_clone/screens/start_screen.dart';
 import 'package:carrotmarket_clone/screens/spash_screen.dart';
+import 'package:carrotmarket_clone/states/user_provider.dart';
 import 'package:carrotmarket_clone/utils/scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:carrotmarket_clone/utils/logger.dart';
+import 'package:provider/provider.dart';
 
 final _routerDelegate = BeamerDelegate(guards: [
   BeamGuard(
       pathPatterns: ['/'],
       check: (context, location) {
-        return false;
+        return context.watch<UserProvider>().userState;
       },
       showPage: BeamPage(child: StartScreen()))
 ], locationBuilder: BeamerLocationBuilder(beamLocations: [HomeLocation()]));
@@ -51,27 +53,32 @@ class CarrotApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: ThemeData(
-          primarySwatch: Colors.orange,
-          fontFamily: 'Jalnan',
-          hintColor: Colors.grey[350],
-          textTheme: TextTheme(
-            button: TextStyle(color: Colors.white),
-          ),
-          textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-            backgroundColor: Color(0xffef8449),
-            primary: Colors.white,
-            minimumSize: Size(48, 48),
-          )),
-          appBarTheme: AppBarTheme(
-              elevation: 2,
-              backgroundColor: Colors.white,
-              toolbarTextStyle: TextStyle(color: Colors.black87))),
-      scrollBehavior: AppScrollBehavior(), //마우스 스와이프
-      routeInformationParser: BeamerParser(),
-      routerDelegate: _routerDelegate,
+    return ChangeNotifierProvider<UserProvider>(
+      create: (BuildContext context) {
+        return UserProvider();
+      },
+      child: MaterialApp.router(
+        theme: ThemeData(
+            primarySwatch: Colors.orange,
+            fontFamily: 'Jalnan',
+            hintColor: Colors.grey[350],
+            textTheme: TextTheme(
+              button: TextStyle(color: Colors.white),
+            ),
+            textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+              backgroundColor: Color(0xffef8449),
+              primary: Colors.white,
+              minimumSize: Size(48, 48),
+            )),
+            appBarTheme: AppBarTheme(
+                elevation: 2,
+                backgroundColor: Colors.white,
+                toolbarTextStyle: TextStyle(color: Colors.black87))),
+        scrollBehavior: AppScrollBehavior(), //마우스 스와이프
+        routeInformationParser: BeamerParser(),
+        routerDelegate: _routerDelegate,
+      ),
     );
   }
 }

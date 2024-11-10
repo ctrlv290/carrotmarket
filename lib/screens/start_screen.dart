@@ -11,11 +11,9 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: PageView(
-            controller: _pageController,
-            physics: NeverScrollableScrollPhysics(),
+        body: PageView(controller: _pageController,
+            // physics: NeverScrollableScrollPhysics(),
             children: [
-          AuthPage(),
           IntroPage(_pageController),
           AddressPage(),
           AuthPage(),

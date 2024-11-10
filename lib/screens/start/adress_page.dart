@@ -1,10 +1,21 @@
 import 'package:carrotmarket_clone/constant/common_size.dart';
+import 'package:carrotmarket_clone/data/address_model.dart';
+import 'package:carrotmarket_clone/screens/start/address_service.dart';
 import 'package:carrotmarket_clone/utils/logger.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AddressPage extends StatelessWidget {
-  const AddressPage({Key? key}) : super(key: key);
+class AddressPage extends StatefulWidget {
+  AddressPage({Key? key}) : super(key: key);
+
+  @override
+  State<AddressPage> createState() => _AddressPageState();
+}
+
+class _AddressPageState extends State<AddressPage> {
+  TextEditingController _addressController = TextEditingController();
+
+  AddressModel? _addressModel;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +25,11 @@ class AddressPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextFormField(
+            controller: _addressController,
+            onFieldSubmitted: (text) async {
+              _addressModel = await AddressService().searchAddressByStr(text);
+              setState(() {});
+            },
             decoration: InputDecoration(
                 prefixIcon: const Icon(
                   Icons.search,
@@ -44,13 +60,24 @@ class AddressPage extends StatelessWidget {
             child: ListView.builder(
               padding: EdgeInsets.symmetric(vertical: common_padding),
               itemBuilder: (context, index) {
-                logger.d('index: $index');
+                if (_addressModel == null ||
+                    _addressModel!.result == null ||
+                    _addressModel!.result!.items == null ||
+                    _addressModel!.result!.items![index].address! == null)
+                  return Container();
                 return ListTile(
-                  title: Text('address $index'),
-                  subtitle: Text('subtitle $index'),
+                  title: Text(
+                      _addressModel!.result!.items![index].address!.road ?? ""),
+                  subtitle: Text(
+                      _addressModel!.result!.items![index].address!.parcel ??
+                          ""),
                 );
               },
-              itemCount: 30,
+              itemCount: (_addressModel == null ||
+                      _addressModel!.result == null ||
+                      _addressModel!.result!.items == null)
+                  ? 0
+                  : _addressModel!.result!.items!.length,
             ),
           )
         ],
